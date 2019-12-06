@@ -4,6 +4,9 @@ from datetime import datetime
 import cv2
 from .camera import VideoCamera
 
+from django.utils.safestring import mark_safe
+import json
+
 # Create your views here.
 webcam_id = 0
 
@@ -22,3 +25,16 @@ def video_feed(request):
     # return render(request, 'index.html', d)
     frame = gen_camera(VideoCamera(0))
     return StreamingHttpResponse(frame, content_type='multipart/x-mixed-replace; boundary=frame')
+
+
+def index(request):
+    return render(request, 'chat/index.html', {})
+
+def room(request, room_name):
+    return render(request, 'chat/room.html', {
+        'room_name_json': mark_safe(json.dumps(room_name))
+    })
+
+def camera(request):
+    return render(request, 'index.html')  
+

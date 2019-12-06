@@ -19,5 +19,7 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^video_feed/', include(('web.urls', 'video_feed')),),
+    path('', include(('web.urls', 'video_feed')),),
+    path('chat/', include('web.urls')),
+    path('camera/', include(('web.urls', 'camera')),),
 ]

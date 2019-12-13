@@ -16,7 +16,7 @@ $(document).ready(function(){
 
 	window.URL = window.URL || window.webkitURL;
 	var video = document.getElementById("video");
-	const img = document.getElementById("img");
+	// const img = document.getElementById("img");
 	
 	var constraints = {
       audio: false,
@@ -34,17 +34,17 @@ $(document).ready(function(){
         alert(err.name + ": " + err.message);
 	});
 	
-	socket.onmessage((message) => {
-        console.log(`Connected to client ${endpoint}`);
-        img.src = message.data;
-	});
+	// socket.onmessage((message) => {
+    //     console.log(`Connected to client ${endpoint}`);
+    //     img.src = message.data;
+	// });
 
 
     const getFrame = () => {
         const canvas = document.getElementById("canvas");
 		const ctx = canvas.getContext("2d");
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const data = canvas.toDataURL('image/png');
+        const data = canvas.toDataURL('image/png', 1.0);
         return data;
     }
     const FPS = 30;

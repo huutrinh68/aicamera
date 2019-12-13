@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%pne@om*9rjc*%7e8$egeio&rv83^)8nr3^v-o8cp3abktuxq0'
+SECRET_KEY = 'm5d*fewvxm=3+#x7yb$dd+6=op6nuz*fi+o=7q_mytn0iq0vxx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,18 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'streamer',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'api',
-    'streams',
-    'channels',
-    "crispy_forms",
-    "accounts.apps.AccountsConfig",
 ]
 
 MIDDLEWARE = [
@@ -84,7 +80,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -120,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Tokyo'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -133,11 +128,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'site_static')]
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
-
-LOGIN_REDIRECT_URL = 'new_user'
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "site_static"),
+)

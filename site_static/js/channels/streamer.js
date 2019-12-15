@@ -9,7 +9,9 @@ $(document).ready(function(){
 	var endpoint = wsStart + loc.host + '/streamer'
 	var socket = new ReconnectingWebSocket(endpoint);
     
-    
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+        
     navigator.getUserMedia = navigator.getUserMedia 
 	|| navigator.webkitGetUserMedia 
 	|| window.navigator.mozGetUserMedia;
@@ -34,15 +36,19 @@ $(document).ready(function(){
         alert(err.name + ": " + err.message);
 	});
 	
-	// socket.onmessage((message) => {
-    //     console.log(`Connected to client ${endpoint}`);
-    //     img.src = message.data;
-	// });
+    socket.onmessage = function(e){
+        console.log(`Connected to client ${endpoint}`);
+        json_data = JSON.parse(e.data);
+        console.log(json_data[0].box)
+        ctx.beginPath();
+        ctx.lineWidth = "4";
+        ctx.strokeStyle = "green";
+        ctx.rect(json_data.box);
+        ctx.stroke();
+    };
 
 
     const getFrame = () => {
-        const canvas = document.getElementById("canvas");
-		const ctx = canvas.getContext("2d");
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const data = canvas.toDataURL('image/png', 1.0);
         return data;

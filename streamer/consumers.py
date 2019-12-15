@@ -9,6 +9,19 @@ from asgiref.sync import async_to_sync
 import base64
 import numpy as np
 import cv2
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
+
+from mtcnn import MTCNN
+detector = MTCNN()
+# face_cascade_path = "/Users/trinhnh1/Desktop/aicamera/haarcascade_frontalface_default.xml"
+# face_cascade = cv2.CascadeClassifier(face_cascade_path)
 
 image_file='decode.png'
 
@@ -43,8 +56,15 @@ class StreamerConsumer(AsyncJsonWebsocketConsumer):
         img_binary = base64.urlsafe_b64decode(text_data)
         png = np.frombuffer(img_binary, dtype=np.uint8)
         img = cv2.imdecode(png, cv2.IMREAD_COLOR)
-        cv2.imwrite(image_file, img)
-        print('SAVED!!!!!')
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        # cv2.imwrite(image_file, img)
+        result = detector.detect_faces(img)
+        # src_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # faces = face_cascade.detectMultiScale(src_gray)
+
+        # result = json.dumps({'faces': faces}, cls=NumpyEncoder)
+
+        # print(result)
 
         # print(f'receive: {text_data}')
 
@@ -52,16 +72,15 @@ class StreamerConsumer(AsyncJsonWebsocketConsumer):
         await self.channel_layer.group_send(
             self.group_name,
             {
-                'type': 'update_frame',
-                'data': text_data
+                'type': 'update_result',
+                'data': result
             }
         )
 
-    async def update_frame(self, event):
-        # message = event['message']
+    async def update_result(self, event):
+        message = event
 
         # Send message to WebSocket
-        # await self.send(event)
-        # print(f'frame update {event}')
-        pass
+        await self.send_json(message)
+        print(f'{message}')
 

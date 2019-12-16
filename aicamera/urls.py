@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.conf.urls import include
+from django.conf.urls import include, url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('streamer.urls')),
+    # path('', include('face_detect_app.urls')),
+    url(r'^', include(('face_detect_app.urls', 'face-detect'),)),
 ]

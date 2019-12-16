@@ -1,11 +1,30 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
+from django.shortcuts import render, redirect
+from django.http.response import HttpResponse, StreamingHttpResponse
+from datetime import datetime
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 
-from main.detect import get_face_detect_data
+from face_detect_app.camera import VideoCamera
+from face_detect_app.detect import get_face_detect_data
+
+# Create your views here.
+# webcam_id = 0
+
+# def gen(camera):
+#     while True:
+#         frame = camera.get_frame()
+#         yield (b'--frame\r\n'
+#                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+# def video_feed(request):
+#     redirect('/video_feed/')
+#     frame = gen(VideoCamera(0))
+
+#     return StreamingHttpResponse(frame, content_type='multipart/x-mixed-replace; boundary=frame')
+
+# def camera(request):
+#     return render(request, 'streamer.html')
 
 
 def upload_file(image):

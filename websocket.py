@@ -23,7 +23,7 @@ class MainHandler(tornado.websocket.WebSocketHandler):
         logging.info("A client disconnected")
 
     def on_message(self, message):
-        from main.detect import get_face_detect_data
+        from face_detect_app.detect import get_face_detect_data
         image_data = get_face_detect_data(message)
         if not image_data:
             image_data = message
